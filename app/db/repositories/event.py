@@ -1,5 +1,4 @@
 from app.db.connection import get_db_connection
-from app.db.exceptions import NotFoundModelException
 from app.db.models import EventModel
 from app.schemas import EventCreateSchema, EventUpdateSchema
 from psycopg2.extras import RealDictCursor
@@ -28,7 +27,7 @@ class EventRepository:
             results = cursor.fetchall()
             return [EventModel(**row) for row in results]
 
-    def get_event_by_id(self, id: int) -> EventModel:
+    def get_event_by_id(self, id: int) -> EventModel | None:
         query = """
         SELECT id, title, description, created_at, started_at
         FROM events
@@ -38,10 +37,10 @@ class EventRepository:
             cursor.execute(query, (id,))
             result = cursor.fetchone()
             if not result:
-                raise NotFoundModelException(f'Не найдено событие с id: {id}')
+                return None
             return EventModel(**result)
 
-    def update_event(self, id: int, event: EventUpdateSchema) -> int:
+    def update_event(self, id: int, event: EventUpdateSchema) -> int | None:
         query = """
         UPDATE events
         SET title = %s, description = %s, started_at = %s
@@ -55,9 +54,9 @@ class EventRepository:
                 self._connection.commit()
                 return updated_id[0]
             else:
-                raise NotFoundModelException(f'Не найдено событие с id: {id}')
+                return None
 
-    def delete_event(self, id: int) -> int:
+    def delete_event(self, id: int) -> int | None:
         query = """
         DELETE FROM events
         WHERE id = %s
@@ -70,4 +69,4 @@ class EventRepository:
                 self._connection.commit()
                 return deleted_id[0]
             else:
-                raise NotFoundModelException(f'Не найдено событие с id: {id}')
+                return None

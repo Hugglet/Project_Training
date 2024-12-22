@@ -1,6 +1,5 @@
 from app.db.connection import get_db_connection
 from app.schemas import RecordCreateSchema, RecordUpdateSchema
-from app.db.exceptions import NotFoundModelException
 from app.db.models import RecordModel
 from psycopg2.extras import RealDictCursor
 
@@ -31,7 +30,7 @@ class RecordRepository:
             results = cursor.fetchall()
             return [RecordModel(**row) for row in results]
 
-    def get_record_by_id(self, id: int) -> RecordModel:
+    def get_record_by_id(self, id: int) -> RecordModel | None:
         query = """
         SELECT id, user_id, event_id
         FROM records
@@ -41,10 +40,10 @@ class RecordRepository:
             cursor.execute(query, (id,))
             result = cursor.fetchone()
             if not result:
-                raise NotFoundModelException(f'Не найдена запись с id: {id}')
+                return None
             return RecordModel(**result)
 
-    def update_record(self, id: int, record: RecordUpdateSchema) -> int:
+    def update_record(self, id: int, record: RecordUpdateSchema) -> int | None:
         query = """
         UPDATE records
         SET user_id = %s, event_id = %s
@@ -58,9 +57,9 @@ class RecordRepository:
                 self._connection.commit()
                 return updated_id[0]
             else:
-                raise NotFoundModelException(f'Не найдена запись с id: {id}')
+                return None
 
-    def delete_record(self, id: int) -> int:
+    def delete_record(self, id: int) -> int | None:
         query = """
         DELETE FROM records
         WHERE id = %s
@@ -73,4 +72,4 @@ class RecordRepository:
                 self._connection.commit()
                 return deleted_id[0]
             else:
-                raise NotFoundModelException(f'Не найдена запись с id: {id}')
+                return None

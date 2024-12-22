@@ -1,5 +1,4 @@
 from app.db.connection import get_db_connection
-from app.db.exceptions import NotFoundModelException
 from app.db.models import ReviewModel
 from app.schemas import ReviewCreateSchema, ReviewUpdateSchema
 from psycopg2.extras import RealDictCursor
@@ -39,7 +38,7 @@ class ReviewRepository:
             results = cursor.fetchall()
             return [ReviewModel(**row) for row in results]
 
-    def get_review_by_id(self, id: int) -> ReviewModel:
+    def get_review_by_id(self, id: int) -> ReviewModel | None:
         query = """
         SELECT id, content, mark, user_id, event_id, created_at
         FROM reviews
@@ -49,10 +48,10 @@ class ReviewRepository:
             cursor.execute(query, (id,))
             result = cursor.fetchone()
             if not result:
-                raise NotFoundModelException(f'Не найден отзыв с id: {id}')
+                return None
             return ReviewModel(**result)
 
-    def update_review(self, id: int, review: ReviewUpdateSchema) -> int:
+    def update_review(self, id: int, review: ReviewUpdateSchema) -> int | None:
         query = """
         UPDATE reviews
         SET content = %s, mark = %s, user_id = %s, event_id = %s
@@ -65,8 +64,6 @@ class ReviewRepository:
                 (
                     review.content,
                     review.mark,
-                    review.user_id,
-                    review.event_id,
                     id,
                 ),
             )
@@ -75,9 +72,9 @@ class ReviewRepository:
                 self._connection.commit()
                 return updated_id[0]
             else:
-                raise NotFoundModelException(f'Не найден отзыв с id: {id}')
+                return None
 
-    def delete_review(self, id: int) -> int:
+    def delete_review(self, id: int) -> int | None:
         query = """
         DELETE FROM reviews
         WHERE id = %s
@@ -90,4 +87,4 @@ class ReviewRepository:
                 self._connection.commit()
                 return deleted_id[0]
             else:
-                raise NotFoundModelException(f'Не найден отзыв с id: {id}')
+                return None

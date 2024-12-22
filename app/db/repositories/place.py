@@ -1,6 +1,5 @@
 from psycopg2.extras import RealDictCursor
 from app.db.connection import get_db_connection
-from app.db.exceptions import NotFoundModelException
 from app.db.models import PlaceModel
 from app.schemas import PlaceCreateSchema
 
@@ -28,7 +27,7 @@ class PlaceRepository:
             results = cursor.fetchall()
             return [PlaceModel(**row) for row in results]
 
-    def get_place_by_id(self, id: int) -> PlaceModel:
+    def get_place_by_id(self, id: int) -> PlaceModel | None:
         query = """
         SELECT id, name, owner, city
         FROM places
@@ -38,10 +37,10 @@ class PlaceRepository:
             cursor.execute(query, (id,))
             result = cursor.fetchone()
             if not result:
-                raise NotFoundModelException(f'Не найдено место с id: {id}')
+                return None
             return PlaceModel(**result)
 
-    def delete_place(self, id: int) -> int:
+    def delete_place(self, id: int) -> int | None:
         query = """
         DELETE FROM places
         WHERE id = %s
@@ -54,4 +53,4 @@ class PlaceRepository:
                 self._connection.commit()
                 return deleted_id[0]
             else:
-                raise NotFoundModelException(f'Не найдено место с id: {id}')
+                return None
