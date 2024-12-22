@@ -3,61 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Users Table</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        table {
-            width: 80%;
-            border-collapse: collapse;
-            margin: 0 auto;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #f4f4f4;
-        }
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-        caption {
-            margin-bottom: 10px;
-            font-size: 1.5em;
-            font-weight: bold;
-        }
-    </style>
+    <title>Events</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1 style="text-align: center;">Users Table</h1>
-    <table>
-        <caption>Registered Users</caption>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Email</th>
-                <th>Username</th>
-                <th>Full Name</th>
-                <th>Birth Date</th>
-                <th>Role</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for user in users %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.username }}</td>
-                <td>{{ user.name or 'N/A' }}</td>
-                <td>{{ user.birth_date or 'N/A' }}</td>
-                <td>{{ user.role.name if user.role else 'N/A' }}</td>
-            </tr>
+    <div class="container">
+        <h1>Upcoming Events</h1>
+        <a href="{{ url_for('create_event') }}" class="btn">Create New Event</a>
+        <ul>
+            {% for event in events %}
+                <li>
+                    <h2><a href="{{ url_for('view_event', event_id=event.id) }}">{{ event.title }}</a></h2>
+                    <p><strong>Date:</strong> {{ event.date }}</p>
+                    <p><strong>Location:</strong> {{ event.location }}</p>
+                    <p>{{ event.description[:100] }}...</p>
+                    <a href="{{ url_for('edit_event', event_id=event.id) }}" class="btn">Edit</a>
+                </li>
             {% endfor %}
-        </tbody>
-    </table>
+        </ul>
+    </div>
 </body>
 </html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ user.username }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>{{ user.username }}</h1>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Role:</strong> {{ user.role }}</p>
+        
+        <h2>Actions</h2>
+        <a href="{{ url_for('edit_user', user_id=user.id) }}" class="btn">Edit User</a>
+        <a href="{{ url_for('delete_user', user_id=user.id) }}" class="btn btn-danger">Delete User</a>
+    </div>
+</body>
+</html>

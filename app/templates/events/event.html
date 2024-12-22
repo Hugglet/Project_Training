@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ event.title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>{{ event.title }}</h1>
+        <p><strong>Date:</strong> {{ event.date }}</p>
+        <p><strong>Location:</strong> {{ event.location }}</p>
+        <p><strong>Description:</strong></p>
+        <p>{{ event.description }}</p>
+        
+        <h2>Participants</h2>
+        <ul>
+            {% for participant in event.participants %}
+                <li>{{ participant.name }}</li>
+            {% endfor %}
+        </ul>
+        
+        <h2>Actions</h2>
+        <form action="{{ url_for('join_event', event_id=event.id) }}" method="POST">
+            <button type="submit">Join as Participant</button>
+        </form>
+        <form action="{{ url_for('attend_event', event_id=event.id) }}" method="POST">
+            <button type="submit">Attend as Audience</button>
+        </form>
+    </div>
+</body>
+</html>
