@@ -1,0 +1,117 @@
+@startuml use case diagram
+left to right direction
+
+actor "Зритель" as Viewer
+actor "Комик" as Comedian
+actor "Организатор" as Organizer
+actor "Администратор" as Administrator
+actor "Пользователь" as User
+
+usecase "Создание аккаунта" as CreateAccount
+usecase "Ввод ФИО" as EnterFullName
+usecase "Придумать логин/пароль" as CreateLoginPassword
+usecase "Добавить фото" as AddPhoto
+usecase "Указание контактной информации" as ProvideContactInfo
+usecase "Вход в систему" as Login
+usecase "Ввод логина/пароля" as EnterLoginPassword
+usecase "Редактирование профиля" as EditProfile
+usecase "Авторизация как зритель" as AuthorizeViewer
+usecase "Авторизация как комик" as AuthorizeComedian
+usecase "Авторизация как организатор" as AuthorizeOrganizer
+usecase "Авторизация как админ" as AuthorizeAdmin
+usecase "Поиск мероприятий" as SearchEvents
+usecase "Оставление отзывов" as LeaveReview
+usecase "Просмотр отзывов" as ViewReviews
+usecase "Просмотр комиков" as ViewComedian
+usecase "Просмотр мероприятий" as ViewLocations
+usecase "Подписка на мероприятия" as SubscribeToEvents
+usecase "Создание мероприятий" as CreateEvents
+usecase "Приглашение комиков" as InviteComedians
+usecase "Управление пользователями" as ManageUsers
+usecase "Модерация контента" as ModerateContent
+usecase "Решение техпроблем" as ResolveDisputes
+usecase "Сменить фото" as ChangePhoto
+usecase "Сменить пароль" as ChangePassword
+usecase "Сменить логин" as ChangeLogin
+usecase "Сменить жанр" as ChangeGenre
+usecase "Сменить ФИО" as ChangeFullName
+usecase "Поставить рейтинг комику" as RateComedian
+usecase "Просмотр мероприятия по жанру" as WatchGenre
+usecase "Просмотр мероприятия по комику" as WatchComedian
+usecase "Регистрация комика на мероприятие" as RegisterComedian
+usecase "Запрос комика на регистрацию на мероприятие" as Reguest
+
+User --> CreateAccount
+User --> EditProfile
+
+Viewer --> RateComedian
+Viewer --> Login
+Viewer --> SearchEvents
+Viewer --> ViewComedian
+Viewer --> LeaveReview
+Viewer --> ViewReviews
+Viewer --> SubscribeToEvents
+Viewer --> ViewComedian
+Viewer --> ViewLocations
+
+Comedian --> Login
+Comedian --> ViewComedian
+Comedian --> LeaveReview
+Comedian --> ViewReviews
+Comedian --> ViewComedian
+Comedian --> ViewLocations
+Comedian --> SearchEvents
+
+Organizer --> CreateEvents
+Organizer --> InviteComedians
+Organizer --> Login
+Organizer --> ViewComedian
+Organizer --> ViewLocations
+Organizer --> RateComedian
+Organizer --> Reguest
+Organizer --> LeaveReview
+
+Reguest --> RegisterComedian
+
+Administrator --> ManageUsers
+Administrator --> ModerateContent
+Administrator --> ResolveDisputes
+Administrator --> Login
+
+CreateAccount --> EnterFullName
+CreateAccount --> CreateLoginPassword
+CreateAccount --> AddPhoto
+CreateAccount --> AuthorizeViewer
+CreateAccount --> AuthorizeComedian
+CreateAccount --> AuthorizeOrganizer
+CreateAccount --> AuthorizeAdmin
+
+EditProfile --> ChangePhoto
+EditProfile --> ChangePassword
+EditProfile --> ChangeLogin
+EditProfile --> ChangeGenre
+EditProfile --> ChangeFullName
+
+ViewLocations --> WatchGenre
+ViewLocations --> WatchComedian
+
+' Включения (include)
+CreateAccount <. EnterFullName : <<include>>
+CreateAccount <. CreateLoginPassword : <<include>>
+CreateAccount <. AddPhoto : <<include>>
+CreateAccount .> ProvideContactInfo : <<include>>
+Login .> EnterLoginPassword : <<include>>
+EditProfile <. ChangeFullName : <<include>>
+EditProfile <. ChangePhoto : <<include>>
+EditProfile <. ChangePassword : <<include>>
+EditProfile <. ChangeLogin : <<include>>
+EditProfile <. ChangeGenre : <<include>>
+SearchEvents .> SubscribeToEvents : <<include>>
+
+' Расширения (extend)
+ViewComedian .> SearchEvents : <<extend>>
+
+' Обобщение (generalization)
+ModerateContent <|-- ResolveDisputes
+
+@enduml
