@@ -1,6 +1,6 @@
 /* Основной фон и текст */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Ronnia Condensed', Arial, sans-serif;
     background-color: #f4f9f4; 
     color: #333;
     margin: 0;
@@ -23,9 +23,24 @@ h1, h2 {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
 }
 
+/* Кнопки меню */
+.navbar .btn-menu {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+.navbar .btn-menu:hover {
+    background: linear-gradient(45deg, #8b4513, #50c878);
+    color: #fff;
+    transform: scale(1.1); /* Увеличение при наведении */
+}
+
 /* Кнопки */
-button {
-    background: linear-gradient(45deg, #50c878, #3da665); 
+btn-primary {
+    background: #50c878; 
     color: white;
     border: none;
     padding: 10px 20px;
@@ -36,8 +51,8 @@ button {
     transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
-button:hover {
-    background: linear-gradient(45deg, #3da665, #50c878); 
+btn-primary:hover {
+    background: linear-gradient(45deg, #50c878, #8b4513 ); 
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3); 
 }
 
@@ -112,6 +127,23 @@ input[type="text"], input[type="password"] {
     border-radius: 4px;
 }
 
+/* Анимации */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.container {
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+/* Медиазапросы для адаптивности */
 @media (max-width: 768px) {
     h1 {
         font-size: 24px;
