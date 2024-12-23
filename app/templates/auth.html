@@ -1,24 +1,25 @@
 <!DOCTYPE html>
+<html lang="ru">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Логин</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <div class="container">
-        <h1>Login</h1>
+        <h1>Логин</h1>
         <form action="{{ url_for('login') }}" method="POST">
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
             
-            <label for="password">Password:</label>
+            <label for="password">Пароль:</label>
             <input type="password" id="password" name="password" required>
             
-            <button type="submit">Login</button>
+            <button type="submit">Логин</button>
         </form>
-        <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a>.</p>
+        <p>Не создавали аккаунт? <a href="{{ url_for('register') }}">Регистрация здесь</a>.</p>
     </div>
 </body>
 </html>

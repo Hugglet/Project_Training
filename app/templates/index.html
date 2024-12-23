@@ -1,35 +1,36 @@
 <!DOCTYPE html>
+<html lang="ru">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Домашняя страница</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Welcome to the Comedy Event Platform</h1>
+            <h1>Добро пожаловать в Comedy Event Platform</h1>
         </header>
         
         <nav>
             <ul>
-                <li><a href="{{ url_for('events') }}">Events</a></li>
-                <li><a href="{{ url_for('users') }}">Users</a></li>
-                <li><a href="{{ url_for('feedbacks') }}">Feedbacks</a></li>
+                <li><a href="{{ url_for('events') }}">Мероприятия</a></li>
+                <li><a href="{{ url_for('users') }}">Пользователи</a></li>
+                <li><a href="{{ url_for('feedbacks') }}">Отзывы</a></li>
                 {% if current_user.is_authenticated %}
-                    <li><a href="{{ url_for('profile') }}">Profile</a></li>
-                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                    <li><a href="{{ url_for('profile') }}">Профиль</a></li>
+                    <li><a href="{{ url_for('logout') }}">Выйти из аккаунта</a></li>
                 {% else %}
-                    <li><a href="{{ url_for('login') }}">Login</a></li>
-                    <li><a href="{{ url_for('register') }}">Register</a></li>
+                    <li><a href="{{ url_for('login') }}">Логин</a></li>
+                    <li><a href="{{ url_for('register') }}">Регистрация</a></li>
                 {% endif %}
             </ul>
         </nav>
         
         <main>
-            <h2>Discover Comedy Events and Talented Comedians</h2>
-            <p>Browse through our list of events, leave feedback, and connect with comedians and audiences alike!</p>
+            <h2>Откройте комедийные мероприятия и талантливых комиков</h2>
+            <p>Просматривайте мероприятия, оставляйте отзывы, и связывайтесь с комиками!</p>
         </main>
         
         <footer>

@@ -20,3 +20,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// Всплывающие сообщения
+function showToast(message) {
+    const toast = document.createElement('div');
+    toast.textContent = message;
+    toast.style.position = 'fixed';
+    toast.style.bottom = '10px';
+    toast.style.right = '10px';
+    toast.style.backgroundColor = '#007bff';
+    toast.style.color = '#fff';
+    toast.style.padding = '10px';
+    toast.style.borderRadius = '5px';
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+}
+
+// Пример вызова:
+showToast('Event created successfully!');
