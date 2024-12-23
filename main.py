@@ -1,6 +1,5 @@
-
-
 from flask import Flask
+from flask_bootstrap import Bootstrap5
 from app.controllers import (
     main_blueprint,
     event_blueprint,
@@ -13,6 +12,7 @@ from app.exception_handlers import CustomException, handle_custom_error
 
 app = Flask(__name__, template_folder="app/templates/") # initialize app
 app.config['JWT_TOKEN_LOCATION'] = ['cookies']
+bootstrap = Bootstrap5(app)
 
 app.register_blueprint(main_blueprint)
 app.register_blueprint(event_blueprint, url_prefix="/events")

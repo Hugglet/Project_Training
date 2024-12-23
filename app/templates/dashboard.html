@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="ru">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,15 +9,15 @@
 </head>
 <body>
     <div class="dashboard-container">
-        <h1>Welcome, {{ username }}!</h1>
-        <p>This is your dashboard. Here you can access all your personalized content and features.</p>
+        <h1>Добро пожаловать, {{ username }}!</h1>
+        <p>Здесь находится доступ к персонализации всего контента.</p>
         
         <nav>
             <ul>
-                <li><a href="#">Profile</a></li>
-                <li><a href="#">Settings</a></li>
-                <li><a href="#">Notifications</a></li>
-                <li><a href="{{ url_for('main.logout') }}">Logout</a></li>
+                <li><a href="#">Профиль</a></li>
+                <li><a href="#">Настройки</a></li>
+                <li><a href="#">Уведомления</a></li>
+                <li><a href="{{ url_for('logout') }}">Выйти из аккаунта</a></li>
             </ul>
         </nav>
     </div>
