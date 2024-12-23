@@ -22,11 +22,8 @@
         </ul>
         
         <h2>Actions</h2>
-        <form action="{{ url_for('join_event', event_id=event.id) }}" method="POST">
+        <form action="{{ url_for('record.create_record', event_id=event.id) }}" method="POST">
             <button type="submit">Join as Participant</button>
-        </form>
-        <form action="{{ url_for('attend_event', event_id=event.id) }}" method="POST">
-            <button type="submit">Attend as Audience</button>
         </form>
     </div>
 </body>

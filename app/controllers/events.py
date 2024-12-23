@@ -1,4 +1,4 @@
-from flask import jsonify, redirect, render_template, url_for
+from flask import Blueprint, jsonify, redirect, render_template, url_for
 from flask_jwt_extended import get_jwt_identity, jwt_required
 from flask_pydantic import validate
 from app.db.models import UserRole
@@ -6,7 +6,8 @@ from app.db.repositories.event import EventRepository
 from app.db.repositories.user import UserRepository
 from app.exception_handlers import CustomException
 from app.schemas import EventCreateSchema, EventUpdateSchema
-from main import app
+
+event_blueprint = Blueprint("event", __name__)
 
 repository = EventRepository()
 user_repository = UserRepository()
@@ -20,13 +21,13 @@ def event_middleware() -> None:
         )
 
 
-@app.route('/events', methods=['GET'])
-def get_events():
+@event_blueprint.route('/', methods=['GET'])
+def events_list():
     events = repository.get_events_all()
     return render_template('events/events.html', events=events)
 
 
-@app.route('/events', methods=['POST'])
+@event_blueprint.route('/', methods=['POST'])
 @jwt_required()
 @validate(body=EventCreateSchema)
 def create_event(event: EventCreateSchema):
@@ -35,7 +36,7 @@ def create_event(event: EventCreateSchema):
     return redirect(url_for('event_detail', event_id=created_event))
 
 
-@app.route('/events/<int:event_id>', methods=['GET'])
+@event_blueprint.route('/<int:event_id>', methods=['GET'])
 def event_detail(event_id):
     event = repository.get_event_by_id(event_id)
     if not event:
@@ -43,7 +44,7 @@ def event_detail(event_id):
     return render_template('events/event.html', event=event)
 
 
-@app.route('/events/<int:event_id>', methods=['DELETE'])
+@event_blueprint.route('/<int:event_id>', methods=['DELETE'])
 @jwt_required()
 def delete_event(event_id):
     event_middleware()
@@ -53,7 +54,7 @@ def delete_event(event_id):
     return jsonify({"message": "Event deleted"}), 200
 
 
-@app.route('/events/<int:event_id>', methods=['PUT'])
+@event_blueprint.route('/<int:event_id>', methods=['PUT'])
 @jwt_required()
 @validate(body=EventUpdateSchema)
 def edit_event(event_id, body: EventUpdateSchema):

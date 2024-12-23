@@ -52,7 +52,7 @@ class UserRepository:
             return UserModel(**result)
         
     def get_user_by_username(self, username: str) -> UserModel | None:
-        query = "SELECT id, username, password FROM users WHERE username = %s;"
+        query = "SELECT id, login, password FROM users WHERE login = %s;"
         with self._connection.cursor() as cursor:
             cursor.execute(query, (username,))
             result = cursor.fetchone()

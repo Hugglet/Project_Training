@@ -14,15 +14,15 @@
         
         <nav>
             <ul>
-                <li><a href="{{ url_for('events') }}">Events</a></li>
-                <li><a href="{{ url_for('users') }}">Users</a></li>
-                <li><a href="{{ url_for('feedbacks') }}">Feedbacks</a></li>
-                {% if current_user.is_authenticated %}
-                    <li><a href="{{ url_for('profile') }}">Profile</a></li>
-                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                <li><a href="{{ url_for('place.places_list') }}">Places</a></li>
+                <li><a href="{{ url_for('event.events_list') }}">Events</a></li>
+                <li><a href="{{ url_for('review.reviews_list') }}">Reviews</a></li>
+                {% if current_user %}
+                    <li><a href="{{ url_for('main.profile') }}">Profile</a></li>
+                    <li><a href="{{ url_for('main.logout') }}">Logout</a></li>
                 {% else %}
-                    <li><a href="{{ url_for('login') }}">Login</a></li>
-                    <li><a href="{{ url_for('register') }}">Register</a></li>
+                    <li><a href="{{ url_for('main.login') }}">Login</a></li>
+                    <li><a href="{{ url_for('main.register') }}">Register</a></li>
                 {% endif %}
             </ul>
         </nav>

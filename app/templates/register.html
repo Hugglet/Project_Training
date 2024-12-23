@@ -7,23 +7,40 @@
 </head>
 <body>
     <h1>Register</h1>
-    <form action="{{ url_for('register') }}" method="POST">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        
+    <form action="{{ url_for('main.register') }}" method="POST">
+        <!-- Username -->
+        <label for="login">Username:</label>
+        <input type="text" id="login" name="login" required>
+
+        <!-- Email -->
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required>
-        
+
+        <!-- Password -->
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
-        
+
+        <!-- Name (optional) -->
+        <label for="name">Name (optional):</label>
+        <input type="text" id="name" name="name">
+
+        <!-- Date of Birth -->
+        <label for="date_birth">Date of Birth:</label>
+        <input type="date" id="date_birth" name="date_birth" required>
+
+        <!-- Role -->
         <label for="role">Role:</label>
         <select id="role" name="role" required>
             <option value="viewer">Viewer</option>
             <option value="comedian">Comedian</option>
             <option value="organizer">Organizer</option>
         </select>
-        
+
+        <!-- City -->
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" required>
+
+        <!-- Submit button -->
         <button type="submit">Register</button>
     </form>
 </body>

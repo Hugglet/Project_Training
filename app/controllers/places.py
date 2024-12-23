@@ -1,4 +1,4 @@
-from flask import jsonify, redirect, render_template, url_for
+from flask import Blueprint, jsonify, redirect, render_template, url_for
 from flask_jwt_extended import get_jwt_identity, jwt_required
 from flask_pydantic import validate
 from app.db.models import UserRole
@@ -6,7 +6,8 @@ from app.db.repositories.place import PlaceRepository
 from app.db.repositories.user import UserRepository
 from app.exception_handlers import CustomException
 from app.schemas import PlaceCreateSchema, PlaceUpdateSchema
-from main import app
+
+place_blueprint = Blueprint("place", __name__)
 
 repository = PlaceRepository()
 user_repository = UserRepository()
@@ -20,13 +21,13 @@ def host_middleware() -> None:
         )
 
 
-@app.route('/places', methods=['GET'])
-def get_places():
+@place_blueprint.route('/', methods=['GET'])
+def places_list():
     places = repository.get_places_all()
     return render_template('places/place_list.html', places=places)
 
 
-@app.route('/places', methods=['POST'])
+@place_blueprint.route('/', methods=['POST'])
 @jwt_required()
 @validate(body=PlaceCreateSchema)
 def create_place(place: PlaceCreateSchema):
@@ -35,7 +36,7 @@ def create_place(place: PlaceCreateSchema):
     return redirect(url_for('place_detail', place_id=created_place))
 
 
-@app.route('/places/<int:place_id>', methods=['GET'])
+@place_blueprint.route('/<int:place_id>', methods=['GET'])
 def place_detail(place_id):
     place = repository.get_place_by_id(place_id)
     if not place:
@@ -43,7 +44,7 @@ def place_detail(place_id):
     return render_template('places/place_detail.html', place=place)
 
 
-@app.route('/places/<int:place_id>', methods=['DELETE'])
+@place_blueprint.route('/<int:place_id>', methods=['DELETE'])
 @jwt_required()
 def delete_place(place_id):
     host_middleware()
@@ -53,7 +54,7 @@ def delete_place(place_id):
     return jsonify({"message": "Place deleted"}), 200
 
 
-@app.route('/places/<int:place_id>', methods=['PUT'])
+@place_blueprint.route('/<int:place_id>', methods=['PUT'])
 @jwt_required()
 @validate(body=PlaceUpdateSchema)
 def edit_place(place_id, body: PlaceUpdateSchema):

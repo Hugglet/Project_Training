@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <h1>Leave a review</h1>
-        <form action="{{ url_for('create_review') }}" method="POST">
+        <form action="{{ url_for('review.create_review') }}" method="POST">
             <label for="type">review Type:</label>
             <select id="type" name="type" required>
                 <option value="comedian">Comedian</option>

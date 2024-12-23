@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <h1>Create a New Event</h1>
-        <form action="{{ url_for('create_event') }}" method="POST">
+        <form action="{{ url_for('event.create_event') }}" method="POST">
             <label for="title">Event Title:</label>
             <input type="text" id="title" name="title" required>
             

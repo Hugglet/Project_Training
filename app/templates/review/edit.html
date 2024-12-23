@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <h1>Edit review</h1>
-        <form action="{{ url_for('edit_review', review_id=review.id) }}" method="POST">
+        <form action="{{ url_for('review.edit_review', review_id=review.id) }}" method="POST">
             <label for="type">review Type:</label>
             <select id="type" name="type" required>
                 <option value="comedian" {% if review.type == 'comedian' %}selected{% endif %}>Comedian</option>
