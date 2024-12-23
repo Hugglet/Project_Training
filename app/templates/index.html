@@ -1,41 +1,8 @@
-<!DOCTYPE html>
-<html lang="ru">
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Домашняя страница</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>Добро пожаловать в Comedy Event Platform</h1>
-        </header>
-        
-        <nav>
-            <ul>
-                <li><a href="{{ url_for('place.places_list') }}">Places</a></li>
-                <li><a href="{{ url_for('event.events_list') }}">Events</a></li>
-                <li><a href="{{ url_for('review.reviews_list') }}">Reviews</a></li>
-                {% if current_user %}
-                    <li><a href="{{ url_for('main.profile') }}">Profile</a></li>
-                    <li><a href="{{ url_for('main.logout') }}">Logout</a></li>
-                {% else %}
-                    <li><a href="{{ url_for('main.login') }}">Login</a></li>
-                    <li><a href="{{ url_for('main.register') }}">Register</a></li>
-                {% endif %}
-            </ul>
-        </nav>
-        
-        <main>
-            <h2>Откройте комедийные мероприятия и талантливых комиков</h2>
-            <p>Просматривайте мероприятия, оставляйте отзывы, и связывайтесь с комиками!</p>
-        </main>
-        
-        <footer>
-            <p>&copy; 2024 Comedy Event Platform. All rights reserved.</p>
-        </footer>
-    </div>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}Главная страница{% endblock %}
+
+{% block content %}
+<h2>Откройте комедийные мероприятия и талантливых комиков</h2>
+<p>Просматривайте мероприятия, оставляйте отзывы и связывайтесь с комиками!</p>
+{% endblock %}

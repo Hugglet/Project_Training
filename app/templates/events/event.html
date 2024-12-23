@@ -1,30 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ event.title }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Просмотр мероприятия</title>
 </head>
 <body>
-    <div class="container">
-        <h1>{{ event.title }}</h1>
-        <p><strong>Date:</strong> {{ event.date }}</p>
-        <p><strong>Location:</strong> {{ event.location }}</p>
-        <p><strong>Description:</strong></p>
-        <p>{{ event.description }}</p>
-        
-        <h2>Participants</h2>
-        <ul>
-            {% for participant in event.participants %}
-                <li>{{ participant.name }}</li>
-            {% endfor %}
-        </ul>
-        
-        <h2>Actions</h2>
-        <form action="{{ url_for('record.create_record', event_id=event.id) }}" method="POST">
-            <button type="submit">Join as Participant</button>
-        </form>
+    <div class="container mt-5">
+        <h2>Просмотр мероприятия</h2>
+        <div class="mb-3">
+            <label class="form-label"><strong>Название</strong></label>
+            <p>{{ event.title }}</p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label"><strong>Описание</strong></label>
+            <p>{{ event.description }}</p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label"><strong>Дата начала</strong></label>
+            <p>{{ event.started_at }}</p>
+        </div>
+        <a href="{{ url_for('events.edit', event_id=event.id) }}" class="btn btn-warning">Редактировать</a>
+        <a href="{{ url_for('events.list') }}" class="btn btn-secondary">Назад</a>
     </div>
 </body>
 </html>

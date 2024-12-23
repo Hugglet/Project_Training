@@ -6,7 +6,7 @@ from app.db.repositories.user import UserRepository
 from app.exception_handlers import CustomException
 from app.schemas import UserCreateSchema, UserUpdateSchema
 
-user_blueprint = Blueprint("user", __name__)
+user_blueprint = Blueprint("users", __name__)
 
 repository = UserRepository()
 
@@ -20,7 +20,7 @@ def admin_middleware() -> None:
 
 @user_blueprint.route('/', methods=['GET'])
 @jwt_required()
-def users_list():
+def list():
     admin_middleware()
     users = repository.get_users_all()
     return render_template('users/users.html', users=users)
@@ -28,7 +28,7 @@ def users_list():
 
 @user_blueprint.route('/<int:user_id>', methods=['GET'])
 @jwt_required()
-def user_detail(user_id):
+def detail(user_id):
     admin_middleware()
     user = repository.get_user_by_id(user_id)
     if not user:
@@ -38,7 +38,7 @@ def user_detail(user_id):
 
 @user_blueprint.route('/<int:user_id>', methods=['DELETE'])
 @jwt_required()
-def delete_user(user_id):
+def delete(user_id):
     success = repository.delete_user(user_id)
     if not success:
         return CustomException(message="Не найден пользователь", status_code=404)
@@ -48,7 +48,7 @@ def delete_user(user_id):
 @user_blueprint.route('/<int:user_id>', methods=['PUT'])
 @jwt_required()
 @validate(body=UserUpdateSchema)
-def edit_user(user_id, body: UserUpdateSchema):
+def update(user_id, body: UserUpdateSchema):
     editted_model = repository.update_user(user_id, body)
     if not editted_model:
         return CustomException(message="Не найден пользователь", status_code=404)

@@ -1,48 +1,71 @@
-<!DOCTYPE html>
-<html lang="ru">
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Регистрация</title>
-</head>
-<body>
-    <h1>Register</h1>
-    <form action="{{ url_for('main.register') }}" method="POST">
-        <!-- Username -->
-        <label for="login">Username:</label>
-        <input type="text" id="login" name="login" required>
+{% extends 'base.html' %}
 
-        <!-- Email -->
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
+{% block title %}Регистрация{% endblock %}
 
-        <!-- Password -->
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2>Регистрация</h2>
+                </div>
+                <div class="card-body">
+                    <form action="{{ url_for('main.register') }}" method="POST">
+                        <!-- Логин -->
+                        <div class="mb-3">
+                            <label for="login" class="form-label">Логин:</label>
+                            <input type="text" id="login" name="login" class="form-control" required>
+                        </div>
 
-        <!-- Name (optional) -->
-        <label for="name">Name (optional):</label>
-        <input type="text" id="name" name="name">
+                        <!-- Электронная почта -->
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Электронная почта:</label>
+                            <input type="email" id="email" name="email" class="form-control" required>
+                        </div>
 
-        <!-- Date of Birth -->
-        <label for="date_birth">Date of Birth:</label>
-        <input type="date" id="date_birth" name="date_birth" required>
+                        <!-- Пароль -->
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Пароль:</label>
+                            <input type="password" id="password" name="password" class="form-control" required>
+                        </div>
 
-        <!-- Role -->
-        <label for="role">Role:</label>
-        <select id="role" name="role" required>
-            <option value="viewer">Зритель</option>
-            <option value="comedian">Комик</option>
-            <option value="organizer">Ведущий</option>
-        </select>
+                        <!-- Имя (по желанию) -->
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Имя (по желанию):</label>
+                            <input type="text" id="name" name="name" class="form-control">
+                        </div>
 
-        <!-- City -->
-        <label for="city">City:</label>
-        <input type="text" id="city" name="city" required>
+                        <!-- Дата рождения -->
+                        <div class="mb-3">
+                            <label for="date_birth" class="form-label">Дата рождения:</label>
+                            <input type="date" id="date_birth" name="date_birth" class="form-control" required>
+                        </div>
 
-        <!-- Submit button -->
-        <button type="submit">Register</button>
-    </form>
-</body>
-</html>
+                        <!-- Роль -->
+                        <div class="mb-3">
+                            <label for="role" class="form-label">Роль:</label>
+                            <select id="role" name="role" class="form-select" required>
+                                <option value="viewer">Зритель</option>
+                                <option value="comedian">Комик</option>
+                                <option value="organizer">Ведущий</option>
+                            </select>
+                        </div>
+
+                        <!-- Город проживания -->
+                        <div class="mb-3">
+                            <label for="city" class="form-label">Город проживания:</label>
+                            <input type="text" id="city" name="city" class="form-control" required>
+                        </div>
+
+                        <!-- Кнопка отправки формы -->
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

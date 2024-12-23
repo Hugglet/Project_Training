@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список пользователей</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Список пользователей</h1>
+        <div class="list-group">
+            {% for user in users %}
+                <div class="list-group-item">
+                    <h4>{{ user.login }}</h4>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                    <p><strong>Роль:</strong> {{ user.role }}</p>
+                    <a href="{{ url_for('user.detail', user_id=user.id) }}" class="btn btn-info">Просмотр профиля</a>
+                    <a href="{{ url_for('user.edit', user_id=user.id) }}" class="btn btn-warning">Редактировать</a>
+                    <a href="{{ url_for('user.delete', user_id=user.id) }}" class="btn btn-danger">Удалить</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

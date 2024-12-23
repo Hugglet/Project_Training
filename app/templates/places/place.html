@@ -1,19 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ place.name }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Просмотр организации</title>
 </head>
 <body>
-    <div class="container">
-        <h1>{{ place.name }}</h1>
-        <p><strong>Owner ID:</strong> {{ place.owner_id }}</p>
-        <p><strong>Description:</strong> {{ place.description }}</p>
-
-        <h2>Actions</h2>
-        <a href="{{ url_for('edit_place', place_id=place.id) }}" class="btn">Edit Place</a>
+    <div class="container mt-5">
+        <h2>Просмотр организации</h2>
+        <div class="mb-3">
+            <label class="form-label"><strong>Название</strong></label>
+            <p>{{ place.name }}</p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label"><strong>Владелец</strong></label>
+            <p>{{ place.owner }}</p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label"><strong>Город</strong></label>
+            <p>{{ place.city }}</p>
+        </div>
+        <a href="{{ url_for('places.edit', place_id=place.id) }}" class="btn btn-warning">Редактировать</a>
+        <a href="{{ url_for('places.list') }}" class="btn btn-secondary">Назад</a>
     </div>
 </body>
 </html>

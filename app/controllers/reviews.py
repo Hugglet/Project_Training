@@ -7,12 +7,12 @@ from app.db.repositories.user import UserRepository
 from app.exception_handlers import CustomException
 from app.schemas import ReviewCreateSchema, ReviewUpdateSchema
 
-review_blueprint = Blueprint("review", __name__)
+review_blueprint = Blueprint("reviews", __name__)
 
 repository = ReviewRepository()
 
 @review_blueprint.route('/', methods=['GET'])
-def reviews_list():
+def list():
     reviews = repository.get_reviews_all()
     return render_template('reviews/review_list.html', reviews=reviews)
 
@@ -20,13 +20,13 @@ def reviews_list():
 @review_blueprint.route('/', methods=['POST'])
 @jwt_required()
 @validate(body=ReviewCreateSchema)
-def create_review(review: ReviewCreateSchema):
+def create(review: ReviewCreateSchema):
     created_review = repository.create_review(review)
     return redirect(url_for('review_detail', review_id=created_review))
 
 
 @review_blueprint.route('/<int:review_id>', methods=['GET'])
-def review_detail(review_id):
+def detail(review_id):
     review = repository.get_review_by_id(review_id)
     if not review:
         raise CustomException(message="Не найден отзыв", status_code=404)
@@ -35,7 +35,7 @@ def review_detail(review_id):
 
 @review_blueprint.route('/<int:review_id>', methods=['DELETE'])
 @jwt_required()
-def delete_review(review_id):
+def delete(review_id):
     success = repository.delete_review(review_id)
     if not success:
         raise CustomException(message="Не найден отзыв", status_code=404)
@@ -45,7 +45,7 @@ def delete_review(review_id):
 @review_blueprint.route('/<int:review_id>', methods=['PUT'])
 @jwt_required()
 @validate(body=ReviewUpdateSchema)
-def edit_review(review_id, body: ReviewUpdateSchema):
+def update(review_id, body: ReviewUpdateSchema):
     edited_review = repository.update_review(review_id, body)
     if not edited_review:
         raise CustomException(message="Не найден отзыв", status_code=404)

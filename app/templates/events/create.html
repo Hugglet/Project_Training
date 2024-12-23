@@ -1,28 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Event</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Создание мероприятия</title>
 </head>
 <body>
-    <div class="container">
-        <h1>Create a New Event</h1>
-        <form action="{{ url_for('event.create_event') }}" method="POST">
-            <label for="title">Event Title:</label>
-            <input type="text" id="title" name="title" required>
-            
-            <label for="date">Date:</label>
-            <input type="date" id="date" name="date" required>
-            
-            <label for="location">Location:</label>
-            <input type="text" id="location" name="location" required>
-            
-            <label for="description">Description:</label>
-            <textarea id="description" name="description" required></textarea>
-            
-            <button type="submit">Create Event</button>
+    <div class="container mt-5">
+        <h2>Создание мероприятия</h2>
+        <form action="{{ url_for('events.create') }}" method="POST">
+            <div class="mb-3">
+                <label for="title" class="form-label">Название</label>
+                <input type="text" id="title" name="title" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Описание</label>
+                <textarea id="description" name="description" class="form-control" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="started_at" class="form-label">Дата начала</label>
+                <input type="datetime-local" id="started_at" name="started_at" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Создать</button>
         </form>
     </div>
 </body>
