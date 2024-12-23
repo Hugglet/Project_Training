@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ошибка</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="alert alert-danger text-center" role="alert">
+            <h1 class="alert-heading">Ошибка!</h1>
+            <p>{{ error_message }}</p>
+        </div>
+        <div class="text-center">
+            <a href="{{url_for(redirect_page)}}" class="btn btn-secondary">Вернуться на главную</a>
+        </div>
+    </div>
+</body>
+</html>

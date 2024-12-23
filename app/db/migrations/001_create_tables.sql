@@ -1,9 +1,9 @@
-CREATE TYPE user_role AS ENUM ('ADMIN', 'COMEDIAN', 'HOST', 'GUEST');
+CREATE TYPE user_role AS ENUM ('ADMIN', 'COMEDIAN', 'HOST', 'VIEWER');
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     login VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(128) NOT NULL,
+    password VARCHAR(255) NOT NULL,
     email VARCHAR(320) UNIQUE NOT NULL,
     name VARCHAR(100),
     date_birth TIMESTAMPTZ CHECK (date_birth > '1900-01-01' AND date_birth < CURRENT_DATE),
