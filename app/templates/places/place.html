@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ place.name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>{{ place.name }}</h1>
+        <p><strong>Owner ID:</strong> {{ place.owner_id }}</p>
+        <p><strong>Description:</strong> {{ place.description }}</p>
+
+        <h2>Actions</h2>
+        <a href="{{ url_for('edit_place', place_id=place.id) }}" class="btn">Edit Place</a>
+    </div>
+</body>
+</html>
