@@ -99,7 +99,7 @@ class UserRepository:
                 updated_id = cursor.fetchone()
                 if updated_id:
                     self._connection.commit()
-                    return updated_id[0]
+                    return updated_id["id"]
                 else:
                     return None
 
@@ -115,6 +115,6 @@ class UserRepository:
                 deleted_id = cursor.fetchone()
                 if deleted_id:
                     self._connection.commit()
-                    return deleted_id[0]
+                    return deleted_id["id"]
                 else:
                     return None

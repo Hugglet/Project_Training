@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import date, datetime
 from enum import Enum
 from typing import Optional
 
@@ -19,7 +19,7 @@ class UserModel():
     email: str
     role: UserRole
     name: Optional[str] = None
-    date_birth: Optional[datetime] = None
+    date_birth: Optional[date] = None
     city: Optional[str] = None
 
 
@@ -36,6 +36,7 @@ class EventModel():
     id: int
     title: str
     description: str
+    place_id: int
     created_at: datetime
     started_at: datetime
 
@@ -45,14 +46,14 @@ class ReviewModel():
     id: int
     content: str
     mark: int
-    user: UserModel
-    event: EventModel
+    user_id: int
+    event_id: int
     created_at: datetime
 
 
 @dataclass(slots=True)
 class RecordModel():
     id: int
-    user: UserModel
-    event: EventModel
+    user_id: int
+    event_id: int
     created_at: datetime

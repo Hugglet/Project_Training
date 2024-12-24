@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}Список отзывов{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Список отзывов</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Содержание</th>
+                <th>Оценка</th>
+                <th>Пользователь</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for review in reviews %}
+                {% if review.event_id == event_id %}
+                <tr>
+                    <td>{{ review.id }}</td>
+                    <td>{{ review.content }}</td>
+                    <td>{{ review.mark }}</td>
+                    <td>{{ review.user_id }}</td>
+                    <td>
+                        <a href="{{ url_for('events.review_detail', review_id=review.id, event_id=event_id) }}" class="btn btn-info">Просмотр</a>
+                        {% if user %}
+                        {% if user.id == review.user_id %}
+                        <a href="{{ url_for('events.review_delete', review_id=review.id, event_id=event_id) }}" class="btn btn-danger">Удалить</a>
+                        {% endif %}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if user %}
+    <!-- Кнопка для открытия модального окна создания отзыва -->
+    <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#createReviewModal">
+        Создать новый отзыв
+    </button>
+    {% endif %}
+    <a href="{{ url_for('events.list') }}" class="btn btn-danger mt-3">Назад</a>
+</div>
+
+<!-- Модальное окно создания нового отзыва -->
+<div class="modal fade" id="createReviewModal" tabindex="-1" aria-labelledby="createReviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createReviewModalLabel">Создать новый отзыв</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('events.create_review', event_id=event_id) }}" method="POST">
+                    <div class="mb-3">
+                        <label for="content" class="form-label">Содержание</label>
+                        <textarea id="content" name="content" class="form-control" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="mark" class="form-label">Оценка</label>
+                        <select id="mark" name="mark" class="form-select" required>
+                            <option value="" disabled selected>Выберите оценку</option>
+                            {% for i in range(1, 6) %}
+                            <option value="{{ i }}">{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                        <button type="submit" class="btn btn-primary">Создать</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

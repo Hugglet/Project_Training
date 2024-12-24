@@ -35,6 +35,7 @@ class UserUpdateSchema(BaseModel):
 class EventCreateSchema(BaseModel):
     title: str
     description: str
+    place_id: int
     started_at: datetime
 
     class Config:
@@ -44,6 +45,7 @@ class EventCreateSchema(BaseModel):
 class EventUpdateSchema(BaseModel):
     title: Optional[str] = None
     description: Optional[str] = None
+    place_id: Optional[int] = None
     started_at: Optional[datetime] = None
 
     class Config:

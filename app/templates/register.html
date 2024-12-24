@@ -1,71 +1,84 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="ru">
 
-{% block title %}Регистрация{% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    {{ bootstrap.load_css() }}
+</head>
 
-{% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header text-center">
-                    <h2>Регистрация</h2>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h2>Регистрация</h2>
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ url_for('main.register') }}" method="POST">
+                            <!-- Логин -->
+                            <div class="mb-3">
+                                <label for="login" class="form-label">Логин:</label>
+                                <input type="text" id="login" name="login" class="form-control" required>
+                            </div>
+
+                            <!-- Электронная почта -->
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Электронная почта:</label>
+                                <input type="email" id="email" name="email" class="form-control" required>
+                            </div>
+
+                            <!-- Пароль -->
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Пароль:</label>
+                                <input type="password" id="password" name="password" class="form-control" required>
+                            </div>
+
+                            <!-- Имя (по желанию) -->
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Имя (по желанию):</label>
+                                <input type="text" id="name" name="name" class="form-control">
+                            </div>
+
+                            <!-- Дата рождения -->
+                            <div class="mb-3">
+                                <label for="date_birth" class="form-label">Дата рождения:</label>
+                                <input type="date" id="date_birth" name="date_birth" class="form-control" required>
+                            </div>
+
+                            <!-- Роль -->
+                            <div class="mb-3">
+                                <label for="role" class="form-label">Роль:</label>
+                                <select id="role" name="role" class="form-select" required>
+                                    <option value="VIEWER">Зритель</option>
+                                    <option value="COMEDIAN">Комик</option>
+                                    <option value="HOST">Ведущий</option>
+                                    <option value="ADMIN">Админ</option>
+                                </select>
+                            </div>
+
+                            <!-- Город проживания -->
+                            <div class="mb-3">
+                                <label for="city" class="form-label">Город проживания:</label>
+                                <input type="text" id="city" name="city" class="form-control">
+                            </div>
+
+                            <!-- Кнопка отправки формы -->
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <form action="{{ url_for('main.register') }}" method="POST">
-                        <!-- Логин -->
-                        <div class="mb-3">
-                            <label for="login" class="form-label">Логин:</label>
-                            <input type="text" id="login" name="login" class="form-control" required>
-                        </div>
-
-                        <!-- Электронная почта -->
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Электронная почта:</label>
-                            <input type="email" id="email" name="email" class="form-control" required>
-                        </div>
-
-                        <!-- Пароль -->
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Пароль:</label>
-                            <input type="password" id="password" name="password" class="form-control" required>
-                        </div>
-
-                        <!-- Имя (по желанию) -->
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Имя (по желанию):</label>
-                            <input type="text" id="name" name="name" class="form-control">
-                        </div>
-
-                        <!-- Дата рождения -->
-                        <div class="mb-3">
-                            <label for="date_birth" class="form-label">Дата рождения:</label>
-                            <input type="date" id="date_birth" name="date_birth" class="form-control" required>
-                        </div>
-
-                        <!-- Роль -->
-                        <div class="mb-3">
-                            <label for="role" class="form-label">Роль:</label>
-                            <select id="role" name="role" class="form-select" required>
-                                <option value="VIEWER">Зритель</option>
-                                <option value="COMEDIAN">Комик</option>
-                                <option value="ADMIN">Ведущий</option>
-                            </select>
-                        </div>
-
-                        <!-- Город проживания -->
-                        <div class="mb-3">
-                            <label for="city" class="form-label">Город проживания:</label>
-                            <input type="text" id="city" name="city" class="form-control">
-                        </div>
-
-                        <!-- Кнопка отправки формы -->
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
-                        </div>
-                    </form>
+                <div class="text-center mt-3">
+                    <a href="{{ url_for('main.index') }}" class="btn btn-secondary">Выход в главное меню</a>
                 </div>
             </div>
         </div>
     </div>
-</div>
-{% endblock %}
+    {{ bootstrap.load_js() }}
+</body>
+
+</html>

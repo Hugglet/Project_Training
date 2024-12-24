@@ -4,24 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Просмотр мероприятия</title>
+    {{bootstrap.load_css()}}
 </head>
 <body>
     <div class="container mt-5">
-        <h2>Просмотр мероприятия</h2>
-        <div class="mb-3">
-            <label class="form-label"><strong>Название</strong></label>
-            <p>{{ event.title }}</p>
+        <div class="card shadow-lg">
+            <div class="card-header bg-primary text-white">
+                <h2 class="card-title">Просмотр мероприятия</h2>
+            </div>
+            <div class="card-body">
+                <div class="mb-4">
+                    <label class="form-label text-muted"><strong>Название</strong></label>
+                    <p class="border rounded p-3 bg-light">{{ event.title }}</p>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label text-muted"><strong>Описание</strong></label>
+                    <p class="border rounded p-3 bg-light">{{ event.description }}</p>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label text-muted"><strong>Идентификатор организации</strong></label>
+                    <p class="border rounded p-3 bg-light">{{ event.place_id }}</p>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label text-muted"><strong>Дата начала</strong></label>
+                    <p class="border rounded p-3 bg-light">{{ event.started_at }}</p>
+                </div>
+                <div class="text-end">
+                    <a href="{{ url_for('events.list') }}" class="btn btn-secondary">Назад</a>
+                </div>
+            </div>
         </div>
-        <div class="mb-3">
-            <label class="form-label"><strong>Описание</strong></label>
-            <p>{{ event.description }}</p>
-        </div>
-        <div class="mb-3">
-            <label class="form-label"><strong>Дата начала</strong></label>
-            <p>{{ event.started_at }}</p>
-        </div>
-        <a href="{{ url_for('events.edit', event_id=event.id) }}" class="btn btn-warning">Редактировать</a>
-        <a href="{{ url_for('events.list') }}" class="btn btn-secondary">Назад</a>
     </div>
+
+    {{bootstrap.load_js()}}
 </body>
 </html>

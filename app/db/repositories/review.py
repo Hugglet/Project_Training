@@ -24,7 +24,7 @@ class ReviewRepository:
                     review.event_id,
                 ),
             )
-            review_id = cursor.fetchone()[0]
+            review_id = cursor.fetchone()["id"]
             self._connection.commit()
             return review_id
         
@@ -54,7 +54,7 @@ class ReviewRepository:
     def update_review(self, id: int, review: ReviewUpdateSchema) -> int | None:
         query = """
         UPDATE reviews
-        SET content = %s, mark = %s, user_id = %s, event_id = %s
+        SET content = %s, mark = %s
         WHERE id = %s
         RETURNING id;
         """
@@ -70,7 +70,7 @@ class ReviewRepository:
             updated_id = cursor.fetchone()
             if updated_id:
                 self._connection.commit()
-                return updated_id[0]
+                return updated_id["id"]
             else:
                 return None
 
@@ -85,6 +85,6 @@ class ReviewRepository:
             deleted_id = cursor.fetchone()
             if deleted_id:
                 self._connection.commit()
-                return deleted_id[0]
+                return deleted_id["id"]
             else:
                 return None

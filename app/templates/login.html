@@ -1,43 +1,55 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="ru">
 
-{% block title %}Логин{% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Логин</title>
+    {{ bootstrap.load_css() }}
+</head>
 
-{% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header text-center">
-                    <h2>Войти</h2>
-                </div>
-                <div class="card-body">
-                    <form action="{{ url_for('main.login') }}" method="POST">
-                        <!-- Логин -->
-                        <div class="mb-3">
-                            <label for="login" class="form-label">Логин:</label>
-                            <input type="text" id="login" name="login" class="form-control" required>
-                        </div>
-
-                        <!-- Пароль -->
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Пароль:</label>
-                            <input type="password" id="password" name="password" class="form-control" required>
-                        </div>
-
-                        <!-- Кнопка отправки формы -->
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Войти</button>
-                        </div>
-                    </form>
-
-                    {% if error %}
-                    <div class="alert alert-danger mt-3 text-center" role="alert">
-                        <p>{{ error }}</p>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h2>Войти</h2>
                     </div>
-                    {% endif %}
+                    <div class="card-body">
+                        <form action="{{ url_for('main.login') }}" method="POST">
+                            <!-- Логин -->
+                            <div class="mb-3">
+                                <label for="login" class="form-label">Логин:</label>
+                                <input type="text" id="login" name="login" class="form-control" required>
+                            </div>
+
+                            <!-- Пароль -->
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Пароль:</label>
+                                <input type="password" id="password" name="password" class="form-control" required>
+                            </div>
+
+                            <!-- Кнопка отправки формы -->
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Войти</button>
+                            </div>
+                        </form>
+
+                        {% if error %}
+                        <div class="alert alert-danger mt-3 text-center" role="alert">
+                            <p>{{ error }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="text-center mt-3">
+                    <a href="{{ url_for('main.index') }}" class="btn btn-secondary">Выход в главное меню</a>
                 </div>
             </div>
         </div>
     </div>
-</div>
-{% endblock %}
+    {{ bootstrap.load_js() }}
+</body>
+
+</html>

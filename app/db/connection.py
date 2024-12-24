@@ -1,7 +1,7 @@
 from contextlib import contextmanager
 import psycopg2
 from psycopg2.extras import RealDictCursor
-from config import get_postgres_url
+from app.config import app_config
 
 
 class DatabaseConnection:
@@ -15,7 +15,8 @@ class DatabaseConnection:
 
     def get_connection(self):
         if self._connection is None:
-            connection_url = get_postgres_url()
+            connection_url = app_config.postgres.dsn
+            print(f"Connection URL: {connection_url}")
             self._connection = psycopg2.connect(connection_url, cursor_factory=RealDictCursor)
         return self._connection
 
@@ -40,15 +41,11 @@ def close_db_connection():
 @contextmanager
 def transaction_scope(connection):
     try:
-        # Отключаем автокоммит для начала транзакции
         connection.autocommit = False
         yield connection
-        # Если не возникло ошибок, коммитим изменения
         connection.commit()
     except Exception as e:
-        # В случае ошибки откатываем транзакцию
         connection.rollback()
         raise e
     finally:
-        # Включаем автокоммит обратно
         connection.autocommit = True

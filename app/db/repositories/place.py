@@ -1,7 +1,7 @@
 from psycopg2.extras import RealDictCursor
 from app.db.connection import get_db_connection
 from app.db.models import PlaceModel
-from app.schemas import PlaceCreateSchema
+from app.schemas import PlaceCreateSchema, PlaceUpdateSchema
 
 
 class PlaceRepository:
@@ -16,7 +16,7 @@ class PlaceRepository:
         """
         with self._connection.cursor() as cursor:
             cursor.execute(query, (place.name, place.owner, place.city))
-            place_id = cursor.fetchone()[0]
+            place_id = cursor.fetchone()["id"]
             self._connection.commit()
             return place_id
 
@@ -51,6 +51,22 @@ class PlaceRepository:
             deleted_id = cursor.fetchone()
             if deleted_id:
                 self._connection.commit()
-                return deleted_id[0]
+                return deleted_id["id"]
+            else:
+                return None
+            
+    def update_place(self, id: int, place: PlaceUpdateSchema) -> int | None:
+        query = """
+        UPDATE places
+        SET name = %s, owner = %s, city = %s
+        WHERE id = %s
+        RETURNING id;
+        """
+        with self._connection.cursor() as cursor:
+            cursor.execute(query, (place.name, place.owner, place.city, id))
+            updated_id = cursor.fetchone()
+            if updated_id:
+                self._connection.commit()
+                return updated_id["id"]
             else:
                 return None

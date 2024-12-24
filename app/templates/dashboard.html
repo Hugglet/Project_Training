@@ -1,25 +1,100 @@
-<!DOCTYPE html>
-<html lang="ru">
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-<body>
-    <div class="dashboard-container">
-        <h1>Добро пожаловать, {{ username }}!</h1>
-        <p>Здесь находится доступ к персонализации всего контента.</p>
-        
-        <nav>
-            <ul>
-                <li><a href="#">Профиль</a></li>
-                <li><a href="#">Настройки</a></li>
-                <li><a href="#">Уведомления</a></li>
-                <li><a href="{{ url_for('main.logout') }}">Выйти из аккаунта</a></li>
-            </ul>
-        </nav>
+{% extends 'base.html' %}
+
+{% block title %}Профиль{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-5">Добро пожаловать в профиль, {{ user.login }}!</h1>
+
+    <div class="my-4">
+        <h4>Информация о пользователе</h4>
+        <p><strong>Логин:</strong> {{ user.login }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Имя:</strong> {{ user.name or 'Не указано' }}</p>
+        <p><strong>Дата рождения:</strong> {{ user.date_birth or 'Не указано' }}</p>
+        <p><strong>Роль:</strong> {{ user.role }}</p>
+        <p><strong>Город проживания:</strong> {{ user.city or 'Не указано' }}</p>
     </div>
-</body>
-</html>
+
+    <!-- Кнопка открытия модального окна -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+        Редактировать профиль
+    </button>
+
+    <div class="my-4">
+        <a href="{{ url_for('main.logout') }}" class="btn btn-danger">Выйти</a>
+    </div>
+</div>
+
+<!-- Модальное окно для редактирования профиля -->
+<!-- Модальное окно для редактирования профиля -->
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProfileModalLabel">Редактировать профиль</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('users.update', user_id=user.id) }}" method="POST">
+
+                    <!-- Поле логина -->
+                    <div class="mb-3">
+                        <label for="login" class="form-label">Логин</label>
+                        <input type="text" id="login" name="login" class="form-control" value="{{ user.login }}" required>
+                    </div>
+
+                    <!-- Поле email -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" id="email" name="email" class="form-control" value="{{ user.email }}" required>
+                    </div>
+
+                    <!-- Поле пароля -->
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Пароль</label>
+                        <input type="password" id="password" name="password" class="form-control">
+                        <small class="form-text text-muted">Оставьте поле пустым, если не хотите менять пароль.</small>
+                    </div>
+
+                    <!-- Поле имени -->
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Имя</label>
+                        <input type="text" id="name" name="name" class="form-control" value="{{ user.name }}">
+                    </div>
+
+                    <!-- Поле даты рождения -->
+                    <div class="mb-3">
+                        <label for="date_birth" class="form-label">Дата рождения</label>
+                        <input type="date" id="date_birth" name="date_birth" class="form-control" value="{{ user.date_birth }}">
+                    </div>
+
+                    <!-- Поле роли -->
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Роль</label>
+                        <select id="role" name="role" class="form-select" required>
+                            <option value="VIEWER" {% if user.role == 'VIEWER' %}selected{% endif %}>Зритель</option>
+                            <option value="COMEDIAN" {% if user.role == 'COMEDIAN' %}selected{% endif %}>Комик</option>
+                            <option value="HOST" {% if user.role == 'HOST' %}selected{% endif %}>Ведущий</option>
+                            <option value="ADMIN" {% if user.role == 'ADMIN' %}selected{% endif %}>Админ</option>
+                        </select>
+                    </div>
+
+                    <!-- Поле города проживания -->
+                    <div class="mb-3">
+                        <label for="city" class="form-label">Город проживания</label>
+                        <input type="text" id="city" name="city" class="form-control" value="{{ user.city }}">
+                    </div>
+
+                    <!-- Кнопки -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

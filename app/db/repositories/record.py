@@ -16,7 +16,7 @@ class RecordRepository:
         """
         with self._connection.cursor() as cursor:
             cursor.execute(query, (record.user_id, record.event_id))
-            record_id = cursor.fetchone()[0]
+            record_id = cursor.fetchone()["id"]
             self._connection.commit()
             return record_id
 
@@ -55,7 +55,7 @@ class RecordRepository:
             updated_id = cursor.fetchone()
             if updated_id:
                 self._connection.commit()
-                return updated_id[0]
+                return updated_id["id"]
             else:
                 return None
 
@@ -70,6 +70,6 @@ class RecordRepository:
             deleted_id = cursor.fetchone()
             if deleted_id:
                 self._connection.commit()
-                return deleted_id[0]
+                return deleted_id["id"]
             else:
                 return None

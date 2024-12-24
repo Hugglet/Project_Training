@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Просмотр отзыва</title>
+    {{ bootstrap.load_css() }} 
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card shadow-lg">
+            <div class="card-header bg-primary text-white">
+                <h2 class="card-title">Просмотр отзыва</h2>
+            </div>
+            <div class="card-body">
+                <div class="mb-4">
+                    <label class="form-label text-muted"><strong>Содержание</strong></label>
+                    <p class="border rounded p-3 bg-light">{{ review.content }}</p>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label text-muted"><strong>Оценка</strong></label>
+                    <p class="badge bg-success fs-5">{{ review.mark }}</p>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label text-muted"><strong>Пользователь</strong></label>
+                    <p class="text-secondary">{{ review.user_id }}</p>
+                </div>
+                <div class="text-end">
+                    <a href="{{ url_for('events.review_list', event_id=review.event_id) }}" class="btn btn-secondary">Назад к списку</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{ bootstrap.load_js() }} 
+</body>
+</html>

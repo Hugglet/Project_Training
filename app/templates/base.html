@@ -28,10 +28,12 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('events.list') }}">Мероприятия</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('reviews.list') }}">Отзывы</a>
-                        </li>
-                        {% if current_user %}
+                        {% if user %}
+                            {% if user.role == "ADMIN" %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url_for('users.list') }}">Пользователи</a>
+                                </li>
+                            {% endif %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url_for('main.profile') }}">Профиль</a>
                             </li>
