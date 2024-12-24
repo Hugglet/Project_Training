@@ -22,7 +22,7 @@ class RecordRepository:
 
     def get_records_all(self) -> list[RecordModel]:
         query = """
-        SELECT id, user_id, event_id
+        SELECT id, user_id, event_id, created_at
         FROM records;
         """
         with self._connection.cursor(cursor_factory=RealDictCursor) as cursor:
@@ -32,7 +32,7 @@ class RecordRepository:
 
     def get_record_by_id(self, id: int) -> RecordModel | None:
         query = """
-        SELECT id, user_id, event_id
+        SELECT id, user_id, event_id, created_at
         FROM records
         WHERE id = %s;
         """

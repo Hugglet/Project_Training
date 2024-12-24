@@ -27,6 +27,7 @@
                     <td>
                         <a href="{{ url_for('events.detail', event_id=event.id) }}" class="btn btn-info">Просмотр</a>
                         <a href="{{ url_for('events.review_list', event_id=event.id) }}" class="btn btn-info">Отзывы</a>
+                        <a href="{{ url_for('events.record_list', event_id=event.id) }}" class="btn btn-info">Записи</a>
                         {% if user %}
                         {% if user.role == "ADMIN" or user.role == "HOST" %}
                         <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editEventModal{{ event.id }}">Редактировать</a>

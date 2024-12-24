@@ -9,7 +9,6 @@ from app.controllers import (
     event_blueprint,
     place_blueprint,
     user_blueprint,
-    record_blueprint,
 )
 from app.config import Config
 from dotenv import load_dotenv
@@ -23,6 +22,7 @@ def create_app():
     app = Flask(__name__, template_folder="templates", static_folder="static")
     app.config.from_object(Config)
     app.config['JWT_COOKIE_CSRF_PROTECT'] = False
+    app.secret_key = "shurikgat-2704"
 
     # Инициализация расширений
     JWTManager(app)
@@ -43,7 +43,6 @@ def create_app():
     app.register_blueprint(event_blueprint, url_prefix="/events")
     app.register_blueprint(place_blueprint, url_prefix="/places")
     app.register_blueprint(user_blueprint, url_prefix="/users")
-    app.register_blueprint(record_blueprint, url_prefix="/records")
 
     # Регистрация обработчиков ошибок
     app.register_error_handler(CustomException, handle_custom_error)

@@ -5,6 +5,7 @@ from app.db.models import UserRole
 from app.db.repositories.user import UserRepository
 from app.exception_handlers import CustomException
 from app.schemas import UserCreateSchema, UserUpdateSchema
+from werkzeug.security import generate_password_hash
 
 user_blueprint = Blueprint("users", __name__)
 
@@ -51,7 +52,9 @@ def delete(user_id):
 @jwt_required()
 def update(user_id):
     form_data = request.form.to_dict()
-    model_id = repository.update_user(user_id, UserUpdateSchema(**form_data))
+    schema = UserUpdateSchema(**form_data)
+    schema.password = generate_password_hash(form_data["password"])
+    model_id = repository.update_user(user_id, schema)
     if not model_id:
         return CustomException(message="Не найден пользователь", status_code=404)
     return redirect(url_for('users.detail', user_id=model_id))

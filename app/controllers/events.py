@@ -1,18 +1,20 @@
-from flask import Blueprint, jsonify, redirect, render_template, request, url_for
+from flask import Blueprint, flash, jsonify, redirect, render_template, request, url_for
 from flask_jwt_extended import get_jwt_identity, jwt_required, verify_jwt_in_request
 from flask_pydantic import validate
 from app.db.models import UserRole
 from app.db.repositories.event import EventRepository
+from app.db.repositories.record import RecordRepository
 from app.db.repositories.review import ReviewRepository
 from app.db.repositories.user import UserRepository
 from app.exception_handlers import CustomException
-from app.schemas import EventCreateSchema, EventUpdateSchema, ReviewCreateSchema
+from app.schemas import EventCreateSchema, EventUpdateSchema, RecordCreateSchema, ReviewCreateSchema
 
 event_blueprint = Blueprint("events", __name__)
 
 repository = EventRepository()
 user_repository = UserRepository()
 review_repository = ReviewRepository()
+record_repository = RecordRepository()
 
 def event_middleware() -> None:
     role = user_repository.get_user_by_id(get_jwt_identity()).role
@@ -73,11 +75,14 @@ def update(event_id):
 
 
 @event_blueprint.route('/<int:event_id>/reviews', methods=['GET'])
-@jwt_required()
 def review_list(event_id):
     reviews = review_repository.get_reviews_all()
-    user = user_repository.get_user_by_id(get_jwt_identity())
-    return render_template('reviews/review_list.html', reviews=reviews, user=user, event_id=event_id)
+    try:
+        verify_jwt_in_request()
+        user = user_repository.get_user_by_id(get_jwt_identity())
+        return render_template('events/reviews/review_list.html', reviews=reviews, user=user, event_id=event_id)
+    except Exception as e:
+        return render_template('events/reviews/review_list.html', reviews=reviews, user=None, event_id=event_id)
 
 
 @event_blueprint.route('/<int:event_id>/reviews', methods=['POST'])
@@ -99,7 +104,7 @@ def review_detail(event_id, review_id):
     review = review_repository.get_review_by_id(review_id)
     if not review:
         raise CustomException(message="Не найден отзыв", status_code=404)
-    return render_template('reviews/review.html', review=review)
+    return render_template('events/reviews/review.html', review=review)
 
 
 @event_blueprint.route('/<int:event_id>/reviews/<int:review_id>/delete', methods=['GET'])
@@ -112,11 +117,37 @@ def review_delete(event_id, review_id):
     return redirect(url_for("events.review_list", event_id=event_id, user=user))
 
 
-# @event_blueprint.route('/<int:review_id>', methods=['PUT'])
-# @jwt_required()
-# @validate(body=ReviewUpdateSchema)
-# def review_update(review_id, body: ReviewUpdateSchema):
-#     edited_review = repository.update_review(review_id, body)
-#     if not edited_review:
-#         raise CustomException(message="Не найден отзыв", status_code=404)
-#     return redirect(url_for('review_detail', review_id=edited_review))
+# Records routes
+@event_blueprint.route('/<int:event_id>/records', methods=['GET'])
+def record_list(event_id):
+    records = record_repository.get_records_all()
+    try:
+        verify_jwt_in_request()
+        user = user_repository.get_user_by_id(get_jwt_identity())
+        return render_template('events/record_list.html', records=records, user=user, event_id=event_id)
+    except Exception as e:
+        return render_template('events/record_list.html', records=records, user=None, event_id=event_id)
+
+
+@event_blueprint.route('/<int:event_id>/records', methods=['POST'])
+@jwt_required()
+def create_record(event_id):
+    record = RecordCreateSchema(
+        user_id=get_jwt_identity(),
+        event_id=event_id
+    )
+    try:
+        created_record = record_repository.create_record(record)
+        flash(message="Запись успешно создана", category='success')
+    except Exception as e:
+        flash(message="Запись от вас уже создана", category='error')
+    return redirect(url_for('events.record_list', event_id=event_id))
+
+
+@event_blueprint.route('/<int:event_id>/records/<int:record_id>/delete', methods=['GET'])
+@jwt_required()
+def record_delete(event_id, record_id):
+    success = record_repository.delete_record(record_id)
+    if not success:
+        raise CustomException(message="Не найдена запись", status_code=404)
+    return redirect(url_for('events.record_list', event_id=event_id))
