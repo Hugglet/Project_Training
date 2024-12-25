@@ -139,36 +139,6 @@ Werkzeug = ">=0.14"
 asymmetric-crypto = ["cryptography (>=3.3.1)"]
 
 [[package]]
-name = "flask-login"
-version = "0.6.3"
-description = "User authentication and session management for Flask."
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "Flask-Login-0.6.3.tar.gz", hash = "sha256:5e23d14a607ef12806c699590b89d0f0e0d67baeec599d75947bf9c147330333"},
-    {file = "Flask_Login-0.6.3-py3-none-any.whl", hash = "sha256:849b25b82a436bf830a054e74214074af59097171562ab10bfa999e6b78aae5d"},
-]
-
-[package.dependencies]
-Flask = ">=1.0.4"
-Werkzeug = ">=1.0.1"
-
-[[package]]
-name = "flask-pydantic"
-version = "0.12.0"
-description = "Flask extension for integration with Pydantic library"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "Flask-Pydantic-0.12.0.tar.gz", hash = "sha256:b80f18cc7efe332b47eafbae141541e9875777132ba30d7c95f9fef9bf2a6977"},
-    {file = "Flask_Pydantic-0.12.0-py3-none-any.whl", hash = "sha256:c80825d74eefa137d8d7f2396f6b376ee128329196d79eff1442bcfd816a6228"},
-]
-
-[package.dependencies]
-Flask = "*"
-pydantic = ">=2.0"
-
-[[package]]
 name = "gunicorn"
 version = "23.0.0"
 description = "WSGI HTTP Server for UNIX"
@@ -542,4 +512,4 @@ email = ["email-validator"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "1a863a3aeb96b812ded1a5b7068658d1fe642d2f8897ad5642458bf8698e65d5"
+content-hash = "fc34ebdbd6ee26038829aab80ab6127ac3d081476ad4fec4ac44edbb14632183"
