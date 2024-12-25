@@ -13,7 +13,7 @@ from app.controllers import (
 from app.config import Config
 from dotenv import load_dotenv
 
-load_dotenv()  # Загружаем переменные окружения
+load_dotenv(override=True)  # Загружаем переменные окружения
 
 # Инициализация репозитория
 repository = UserRepository()
